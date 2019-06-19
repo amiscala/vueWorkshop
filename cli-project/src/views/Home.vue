@@ -1,18 +1,47 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld/>
+    <select v-model="selectedCountry">
+      <option :value="null">Selecione o Pais</option>
+      <option v-for="country in countries" :key="country.name" :value="country">{{country.name}}</option>
+    </select>
+      <div class="country-info" v-if="selectedCountry">
+        {{selectedCountry.name}}
+      </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+
+import { mapActions, mapGetters, mapMutations } from "vuex";
+import {SET_SELECTED_COUNTRY} from "@/store/home-mutations-type";
+
 
 export default {
   name: "home",
-  components: {
-    HelloWorld
+  beforeMount(){
+    this.loadCountries();
+  },
+  computed:{
+    ...mapGetters("home",[
+      "countries",
+      "counter"
+    ]),
+    selectedCountry: {
+      get() {
+        return this.$store.state.home.selectedCountry;
+      },
+      set(value){
+        this[SET_SELECTED_COUNTRY](value);
+      }
+    }
+  },
+  methods: {
+    ...mapActions("home", [
+      "loadCountries"
+    ]),
+    ...mapMutations("home",[
+      SET_SELECTED_COUNTRY
+    ])
   }
 };
 </script>

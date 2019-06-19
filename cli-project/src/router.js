@@ -4,7 +4,7 @@ import Menu from "@/components/Menu";
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   routes: [{
       path: "/",
       name: "home",
@@ -14,12 +14,6 @@ export default new Router({
       components: {
         menu: Menu,
         content: () => import( /* webpackChunkName: "home" */ "./views/Home.vue")
-      },
-      beforeEnter(to, from, next) {
-        if (from.path === "/about") {
-          alert("Ola");
-        }
-        next();
       }
     },
     {
@@ -33,3 +27,17 @@ export default new Router({
     }
   ]
 });
+
+// router.beforeEach((to, from, next) => {
+//   let chuchuRoutes = router.options.routes
+//     .filter(item => item.meta && item.meta.chuchu)
+//     .map(route => route.path);
+
+//   if (chuchuRoutes.includes(to.path)) {
+//     alert("CHUCHU!!!");
+//   }
+
+//   next();
+// });
+
+export default router;

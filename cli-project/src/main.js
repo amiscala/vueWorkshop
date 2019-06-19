@@ -6,7 +6,7 @@ import Axios from "axios";
 
 Vue.config.productionTip = false;
 
-Axios.config.defaults.baseURL = "https://restcountries.eu/rest/v2"
+Axios.defaults.baseURL = "https://restcountries.eu/rest/v2";
 
 new Vue({
   router,
