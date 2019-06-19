@@ -7,13 +7,17 @@
       <div class="country-info" v-if="selectedCountry">
         {{selectedCountry.name}}
       </div>
+      <hr>
+      <input type="text" placeholder="Title" v-model="title">
+      <input type="text" placeholder="body" v-model="body">
+      <button @click="createPost">POST</button>
   </div>
 </template>
 
 <script>
 
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import {SET_SELECTED_COUNTRY} from "@/store/home-mutations-type";
+import {SET_SELECTED_COUNTRY, SET_POST} from "@/store/home-mutations-type";
 
 
 export default {
@@ -21,10 +25,18 @@ export default {
   beforeMount(){
     this.loadCountries();
   },
+  data(){
+    return{
+      title : "",
+      body : ""
+    };
+  },
+
   computed:{
     ...mapGetters("home",[
       "countries",
-      "counter"
+      "counter",
+      "post"
     ]),
     selectedCountry: {
       get() {
@@ -37,11 +49,20 @@ export default {
   },
   methods: {
     ...mapActions("home", [
-      "loadCountries"
+      "loadCountries",
+      "sendPost"
     ]),
     ...mapMutations("home",[
       SET_SELECTED_COUNTRY
-    ])
+    ]),
+    createPost(){
+      const newPost = {
+        userId: 1,
+        title: this.title,
+        body: this.body
+      }
+      this.sendPost(newPost);
+    }
   }
 };
 </script>
